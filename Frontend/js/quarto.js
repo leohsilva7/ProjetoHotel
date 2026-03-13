@@ -3,16 +3,15 @@ const container = document.getElementById('container');
 const select = document.getElementById('select-id');
 const typeInput = document.getElementById('tipo-id');
 const priceInput = document.getElementById('preco-id');
-const searchInput = document.getElementById('pesquisa-id');
-const searchBtn = document.getElementById('pesquisar-btn');
 
 async function getAll(){
     try {
         const res = await fetch(apiUrl);
         const data = await res.json();
         if (!res.ok) throw new Error(`Erro: ${res.status}`);
-        const html = `
-            <div class="container">
+        const html = document.createElement('div');
+        html.innerHTML= `
+            <div class="container my-3">
                     <div class="row row-cols-3 row-cols-md-5 g-3 justify-content-center">
                         ${data.map(quarto => `
                             <div class="col">
@@ -22,7 +21,7 @@ async function getAll(){
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">Tipo: ${quarto.tipo}</p>
-                                        <p class="card-text">Preço: ${quarto.preco}</p>        
+                                        <p class="card-text">Preço: ${quarto.preco}</p>   
                                     </div>
                             </div>
                         </div>
@@ -30,7 +29,7 @@ async function getAll(){
                     </div>
             </div>
         `
-        return container.innerHTML = html;
+        return container.appendChild(html);
     }
     catch (error){
         console.error(error.message);
@@ -59,14 +58,13 @@ async function createQuarto(event){
         console.error(error.message)
     }
 }
-async function getById(id){
+/*async function showDetails(id){
     try{
-        container.innerHTML = '';
         const res = await fetch(`${apiUrl}/${id}`);
         const data = await res.json();
         if (!res.ok) throw new Error(`Erro: ${res.status}`);
         const html = `
-            <div class="container">
+            <div class="container my-3">
                 <div class="row row-cols-3 row-cols-md-5 g-3 justify-content-center">
                         <div class="col">
                             <div class="card text-bg-secondary mb-3 p-3">
@@ -82,15 +80,12 @@ async function getById(id){
                 </div>
             </div>
         `
-        return container.innerHTML = html;
+        return detailsContainer.innerHTML = html;
     }
     catch (error){
         console.error(error.message);
     }
-}
-searchBtn.addEventListener('click', async () => {
-    await getById(searchInput.value);
-});
+}*/
 async function insertIntoSelect(){
     try {
         const res = await fetch('http://localhost:5084/api/Hoteis');
